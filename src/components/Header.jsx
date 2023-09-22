@@ -1,27 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { PiDogFill } from "react-icons/pi";
 import { BsSunFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import LoginModal from "./LoginModal";
 
 export default function Header() {
+  const [toggleModal, setToggleModal] = useState(false);
+  const [isSignIn, setIsSignIn] = useState(false);
+
+  const handleToggle = (e) => {
+    setToggleModal((prev) => !prev);
+    setIsSignIn(false);
+  };
+
   return (
-    <Headers>
-      <CustomLink to={"/"}>
-        <IconStyled />
-        <h2>멍개팅</h2>
-      </CustomLink>
-      <div>
-        <CustomUl>
-          <li>글쓰기</li>
-          <li>마이페이지</li>
-          <li>로그인 / 회원가입</li>
-          <li>
-            <DarkModeBtn />
-          </li>
-        </CustomUl>
-      </div>
-    </Headers>
+    <>
+      <Headers>
+        <CustomLink to={"/"} onClick={handleToggle}>
+          <IconStyled />
+          <h2>멍개팅</h2>
+        </CustomLink>
+        <div>
+          <CustomUl>
+            <li>글쓰기</li>
+            <li>마이페이지</li>
+            <li onClick={handleToggle}>로그인</li>
+            <li>
+              <DarkModeBtn />
+            </li>
+          </CustomUl>
+        </div>
+      </Headers>
+      <LoginModal
+        toggleModal={toggleModal}
+        handleToggle={handleToggle}
+        isSignIn={isSignIn}
+        setIsSignIn={setIsSignIn}
+      />
+    </>
   );
 }
 
@@ -32,7 +49,6 @@ const Headers = styled.header`
   justify-content: center;
   width: 100vw;
   height: 100px;
-
   background-color: ${({ theme }) => theme.logo};
 `;
 
