@@ -1,11 +1,17 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import styled from "styled-components";
 
 export default function Weather() {
   const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
-  const url = `https://api.openweathermap.org/data/2.5/weather?lat=37.5833&lon=127&lang=kr&appid=${apiKey}`;
+  const [data, setData] = useState(null);
+  const [selectedCity, setSelectedCity] = useState("Seoul");
 
-  const [data, setData] = useState(null); // 초기에 null로 설정
+  const handleCityChange = (e) => {
+    setSelectedCity(e.target.value);
+  };
+
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${selectedCity}&lang=kr&appid=${apiKey}`;
 
   useEffect(() => {
     axios
@@ -17,14 +23,12 @@ export default function Weather() {
       .catch((error) => {
         console.error(error);
       });
-  }, []);
+  }, [selectedCity, apiKey]);
 
   if (data === null) {
     // 데이터가 도착하지 않았을 때
     return <div>Loading...</div>;
   }
-
-  console.log(data);
 
   const {
     name,
@@ -43,17 +47,72 @@ export default function Weather() {
   const weatherIconUrl = `https://openweathermap.org/img/wn/${weatherIconCode}@2x.png`;
 
   return (
-    <div>
-      <h2>오늘의 날씨:</h2>
-      <p>
-        날씨: <img src={weatherIconUrl} alt="Weather Icon" />
-      </p>
-      <p>상태: {weather[0].description}</p>
-      <p>온도: {celsiusTemp}°C</p>
-      <p>체감 온도: {Math.round(feels_like - 273.15)}°C</p>
-      <p>습도: {humidity}%</p>
-      <p>풍속: {speed} m/s</p>
-      <p>구름 양: {all}%</p>
-    </div>
+    <Wrapper>
+      <Item1>
+        <div>
+          오늘의
+          <Select value={selectedCity} onChange={handleCityChange}>
+            <option value={"Seoul"}>서울</option>
+            <option value={"Incheon"}>인천</option>
+            <option value={"Seongnam"}>성남</option>
+            <option value={"Anyang"}>안양</option>
+            <option value={"Goyang"}>고양</option>
+            <option value={"Suwon"}>수원</option>
+            <option value={"Busan"}>부산</option>
+            <option value={"Daegu"}>대구</option>
+            <option value={"Gwangju"}>광주</option>
+            <option value={"Daejeon"}>대전</option>
+            <option value={"Ulsan"}>울산</option>
+          </Select>
+          날씨
+        </div>
+        <IconImg src={weatherIconUrl} alt="Weather Icon" />
+        <p>{weather[0].description}</p>
+      </Item1>
+      <Item2>
+        <li>온도: {celsiusTemp}°C</li>
+        <li>체감 온도: {Math.round(feels_like - 273.15)}°C</li>
+        <li>습도: {humidity}%</li>
+        <li>풍속: {speed} m/s</li>
+        <li>구름 양: {all}%</li>
+      </Item2>
+    </Wrapper>
   );
 }
+
+const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 5px;
+  font-family: "Dovemayo_gothic";
+`;
+
+const Item1 = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const Select = styled.select`
+  border: none;
+  font-family: "Dovemayo_gothic";
+  font-size: 18px;
+  border-bottom: 1px solid black;
+  background-color: inherit;
+  outline: none;
+`;
+
+const Item2 = styled.ul`
+  display: flex;
+  list-style: none;
+  & > li {
+    margin-right: 1rem;
+  }
+`;
+
+const IconImg = styled.img`
+  width: 30px;
+  height: 30px;
+`;

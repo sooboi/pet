@@ -36,7 +36,7 @@ export default function Header() {
       <Headers>
         <CustomLink to={"/"} onClick={() => setToggleModal(false)}>
           <IconStyled />
-          <h2>같이 산책할 땐 멍개팅</h2>
+          <h1>같이 산책할 땐 멍개팅</h1>
         </CustomLink>
         <CustomUl>
           <li>글쓰기</li>
@@ -68,6 +68,7 @@ const Headers = styled.header`
   width: 100vw;
   height: 70px;
   background-color: ${({ theme }) => theme.logo};
+  font-family: "BMJUA";
 `;
 
 const CustomLink = styled(Link)`
@@ -75,6 +76,9 @@ const CustomLink = styled(Link)`
   align-items: center;
   text-decoration: none;
   color: inherit;
+  & > h1 {
+    font-weight: 500;
+  }
 `;
 
 const IconStyled = styled(GiSittingDog)`
@@ -87,17 +91,24 @@ const CustomUl = styled.ul`
   justify-content: space-between;
   align-items: center;
   list-style: none;
+  font-size: 18px;
 
   & > li {
-    padding: 0 20px;
-    border-right: 2px solid black;
+    display: flex;
+    align-items: center;
+    padding: 7px 14px;
+    margin-right: 12px;
+    border-radius: 14px;
+    background-color: white;
+    transition: all 0.3s;
+    color: rgba(0, 0, 0, 0.8);
     cursor: pointer;
     &:last-child {
-      border: none;
+      margin: 0;
     }
     transition: all 0.3s;
     &:hover {
-      color: white;
+      color: black;
     }
   }
 `;
