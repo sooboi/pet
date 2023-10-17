@@ -72,11 +72,11 @@ export default function Weather() {
         <p>{weather[0].description}</p>
       </Item1>
       <Item2>
-        <li>온도: {celsiusTemp}°C</li>
-        <li>체감 온도: {Math.round(feels_like - 273.15)}°C</li>
-        <li>습도: {humidity}%</li>
-        <li>풍속: {speed} m/s</li>
-        <li>구름 양: {all}%</li>
+        <li>온도 : {celsiusTemp}°C</li>
+        <li>체감 온도 : {Math.round(feels_like - 273.15)}°C</li>
+        <li>습도 : {humidity}%</li>
+        <li>바람 : {speed} m/s</li>
+        <li>구름 양 : {all}%</li>
       </Item2>
     </Wrapper>
   );
@@ -86,13 +86,15 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: ${(props) => (props.nightMod ? "black" : "white")};
-  /* background-color: rgba(0, 0, 0, 0.1); */
-  background-color: ${(props) =>
-    props.nightMod ? "rgba(0, 0, 0, 0.1)" : "rgba(0, 0, 0, 0.9)"};
+  color: ${(props) => (props.nightMod ? "white" : "black")};
+  background-color: ${(props) => (props.nightMod ? "black" : "#e2e2e2")};
   padding: 5px;
   font-family: "Dovemayo_gothic";
   transition: all 0.5s;
+  @media (max-width: 780px) {
+    flex-wrap: wrap;
+    font-size: 15px;
+  }
 `;
 
 const Item1 = styled.div`
@@ -104,7 +106,6 @@ const Select = styled.select`
   border: none;
   font-family: "Dovemayo_gothic";
   font-size: 18px;
-  border-bottom: 1px solid black;
   background-color: inherit;
   outline: none;
   color: ${({ theme }) => theme.logo};

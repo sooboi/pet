@@ -68,10 +68,15 @@ const Headers = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-around;
-  width: 100vw;
   height: 70px;
   background-color: ${({ theme }) => theme.logo};
   font-family: "BMJUA";
+
+  @media (max-width: 735px) {
+    flex-wrap: wrap;
+    height: 100px;
+    padding: 10px;
+  }
 `;
 
 const CustomLink = styled(Link)`
@@ -102,11 +107,17 @@ const CustomUl = styled.ul`
     padding: 7px 14px;
     margin-right: 12px;
     border-radius: 14px;
-    background-color: ${(props) =>
-      props.nightMod ? "white" : "rgba(0,0,0,0.8)"};
     transition: all 0.3s;
-    color: ${(props) => (props.nightMod ? "rgba(0,0,0,0.8)" : "white")};
+    background-color: ${(props) =>
+      props.nightMod ? "rgba(0,0,0,0.8)" : "white"};
+    color: ${(props) => (props.nightMod ? "white" : "rgba(0,0,0,0.8)")};
     cursor: pointer;
+
+    @media (max-width: 735px) {
+      font-size: 15px;
+      padding: 7px 10px;
+    }
+
     &:last-child {
       margin: 0;
     }
