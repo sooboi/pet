@@ -1,11 +1,13 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useNightContext } from "../context/NightContext";
 
 export default function Weather() {
   const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
   const [data, setData] = useState(null);
   const [selectedCity, setSelectedCity] = useState("Seoul");
+  const { toggleNight, nightMod } = useNightContext();
 
   const handleCityChange = (e) => {
     setSelectedCity(e.target.value);
@@ -47,7 +49,7 @@ export default function Weather() {
   const weatherIconUrl = `https://openweathermap.org/img/wn/${weatherIconCode}@2x.png`;
 
   return (
-    <Wrapper>
+    <Wrapper nightMod={nightMod}>
       <Item1>
         <div>
           오늘의
@@ -84,10 +86,13 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: black;
-  background-color: rgba(0, 0, 0, 0.1);
+  color: ${(props) => (props.nightMod ? "black" : "white")};
+  /* background-color: rgba(0, 0, 0, 0.1); */
+  background-color: ${(props) =>
+    props.nightMod ? "rgba(0, 0, 0, 0.1)" : "rgba(0, 0, 0, 0.9)"};
   padding: 5px;
   font-family: "Dovemayo_gothic";
+  transition: all 0.5s;
 `;
 
 const Item1 = styled.div`
@@ -102,6 +107,7 @@ const Select = styled.select`
   border-bottom: 1px solid black;
   background-color: inherit;
   outline: none;
+  color: ${({ theme }) => theme.logo};
 `;
 
 const Item2 = styled.ul`

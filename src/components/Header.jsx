@@ -4,11 +4,14 @@ import { GiSittingDog } from "react-icons/gi";
 import { BsSunFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import LoginModal from "./LoginModal";
+import { useNightContext } from "../context/NightContext";
 
 export default function Header() {
   const [toggleModal, setToggleModal] = useState(false);
   const [isSignIn, setIsSignIn] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
+
+  const { toggleNight, nightMod } = useNightContext();
 
   const handleToggle = (e) => {
     setToggleModal((prev) => !prev);
@@ -38,7 +41,7 @@ export default function Header() {
           <IconStyled />
           <h1>같이 산책할 땐 멍개팅</h1>
         </CustomLink>
-        <CustomUl>
+        <CustomUl nightMod={nightMod}>
           <li>글쓰기</li>
           <li>마이페이지</li>
           {isLogin ? (
@@ -46,7 +49,7 @@ export default function Header() {
           ) : (
             <li onClick={handleToggle}>로그인</li>
           )}
-          <li>
+          <li onClick={toggleNight}>
             <DarkModeBtn />
           </li>
         </CustomUl>
@@ -99,16 +102,17 @@ const CustomUl = styled.ul`
     padding: 7px 14px;
     margin-right: 12px;
     border-radius: 14px;
-    background-color: white;
+    background-color: ${(props) =>
+      props.nightMod ? "white" : "rgba(0,0,0,0.8)"};
     transition: all 0.3s;
-    color: rgba(0, 0, 0, 0.8);
+    color: ${(props) => (props.nightMod ? "rgba(0,0,0,0.8)" : "white")};
     cursor: pointer;
     &:last-child {
       margin: 0;
     }
     transition: all 0.3s;
     &:hover {
-      color: black;
+      transform: scale(1.1);
     }
   }
 `;

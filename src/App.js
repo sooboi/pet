@@ -3,8 +3,10 @@ import { Outlet } from "react-router-dom";
 import "./App.css";
 import Header from "./components/Header";
 import { ThemeProvider, createGlobalStyle } from "styled-components";
-import theme from "./styles/Theme";
-import { UserContextProvider } from "./context/Usercontext";
+import { theme } from "./styles/Theme";
+import { UserContextProvider } from "./context/UserContext";
+import { NightContextProvider } from "./context/NightContext";
+import { dark, light } from "./styles/Theme";
 
 const GlobalStyle = createGlobalStyle`
 body {
@@ -20,11 +22,13 @@ body {
 function App() {
   return (
     <UserContextProvider>
-      <ThemeProvider theme={theme}>
-        <GlobalStyle />
-        <Header />
-        <Outlet />
-      </ThemeProvider>
+      <NightContextProvider>
+        <ThemeProvider theme={theme}>
+          <GlobalStyle />
+          <Header />
+          <Outlet />
+        </ThemeProvider>
+      </NightContextProvider>
     </UserContextProvider>
   );
 }
