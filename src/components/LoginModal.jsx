@@ -51,13 +51,15 @@ export default function LoginModal({
       emailInput.current.focus();
     } else if (password.length <= 5) {
       passwordInput.current.focus();
+    } else {
+      signUp(email, password);
+      setInfo({
+        name: "",
+        email: "",
+        password: "",
+      });
+      handleToggle();
     }
-    signUp(email, password);
-    setInfo({
-      email: "",
-      password: "",
-      name: "",
-    });
   };
 
   const handleBack = (e) => {
@@ -136,6 +138,7 @@ const CustomInput = styled.input`
 `;
 
 const ModalForm = styled.form`
+  margin-top: -150px;
   display: flex;
   flex-direction: column;
   justify-content: center;

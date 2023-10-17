@@ -1,5 +1,5 @@
 const theme = {
-  logo: "#EF7171",
+  logo: "#FFBF00",
 };
 
 export default theme;

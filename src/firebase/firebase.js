@@ -56,7 +56,10 @@ export async function signUp(email, password) {
       // 로그인 성공시
       const user = userCredential.user;
       console.log(user);
-      console.log("로그인 성공");
+      window.location.reload();
+      localStorage.clear();
+      localStorage.setItem("user", user.displayName);
+      localStorage.setItem("token", user.accessToken);
       // 로그인 실패시
     })
     .catch((error) => {

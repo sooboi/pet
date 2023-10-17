@@ -3,6 +3,7 @@ import "./App.css";
 import Header from "./components/Header";
 import { ThemeProvider, createGlobalStyle } from "styled-components";
 import theme from "./styles/Theme";
+import { UserContextProvider } from "./context/Usercontext";
 
 const GlobalStyle = createGlobalStyle`
 body {
@@ -17,11 +18,13 @@ body {
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      <Header />
-      <Outlet />
-    </ThemeProvider>
+    <UserContextProvider>
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        <Header />
+        <Outlet />
+      </ThemeProvider>
+    </UserContextProvider>
   );
 }
 
