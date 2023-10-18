@@ -1,12 +1,17 @@
-import { Outlet } from "react-router-dom";
-
 import "./App.css";
-import Header from "./components/Header";
+import {
+  RecoilRoot,
+  atom,
+  selector,
+  useRecoilState,
+  useRecoilValue,
+} from "recoil";
+import { Outlet } from "react-router-dom";
 import { ThemeProvider, createGlobalStyle } from "styled-components";
 import { theme } from "./styles/Theme";
 import { UserContextProvider } from "./context/UserContext";
 import { NightContextProvider } from "./context/NightContext";
-import { dark, light } from "./styles/Theme";
+import Header from "./components/Header/Header";
 
 const GlobalStyle = createGlobalStyle`
 body {
@@ -21,15 +26,17 @@ body {
 
 function App() {
   return (
-    <UserContextProvider>
-      <NightContextProvider>
-        <ThemeProvider theme={theme}>
-          <GlobalStyle />
-          <Header />
-          <Outlet />
-        </ThemeProvider>
-      </NightContextProvider>
-    </UserContextProvider>
+    <RecoilRoot>
+      <UserContextProvider>
+        <NightContextProvider>
+          <ThemeProvider theme={theme}>
+            <GlobalStyle />
+            <Header />
+            <Outlet />
+          </ThemeProvider>
+        </NightContextProvider>
+      </UserContextProvider>
+    </RecoilRoot>
   );
 }
 

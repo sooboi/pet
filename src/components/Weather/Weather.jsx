@@ -1,13 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import styled from "styled-components";
-import { useNightContext } from "../context/NightContext";
+import { useNightContext } from "../../context/NightContext";
+import { Wrapper, Item1, Item2, IconImg } from "./WeatherStyles";
+import Select from "./Select";
 
 export default function Weather() {
   const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
   const [data, setData] = useState(null);
   const [selectedCity, setSelectedCity] = useState("Seoul");
-  const { toggleNight, nightMod } = useNightContext();
+  const { nightMod } = useNightContext();
 
   const handleCityChange = (e) => {
     setSelectedCity(e.target.value);
@@ -40,6 +41,7 @@ export default function Weather() {
     clouds: { all },
   } = data;
 
+  // 절대온도 -> 섭씨온도로 변경
   const celsiusTemp = Math.round(((temp - 273.15) * 10) / 10);
 
   // 날씨 아이콘 코드
@@ -53,19 +55,10 @@ export default function Weather() {
       <Item1>
         <div>
           오늘의
-          <Select value={selectedCity} onChange={handleCityChange}>
-            <option value={"Seoul"}>서울</option>
-            <option value={"Incheon"}>인천</option>
-            <option value={"Seongnam"}>성남</option>
-            <option value={"Anyang"}>안양</option>
-            <option value={"Goyang"}>고양</option>
-            <option value={"Suwon"}>수원</option>
-            <option value={"Busan"}>부산</option>
-            <option value={"Daegu"}>대구</option>
-            <option value={"Gwangju"}>광주</option>
-            <option value={"Daejeon"}>대전</option>
-            <option value={"Ulsan"}>울산</option>
-          </Select>
+          <Select
+            selectedCity={selectedCity}
+            handleCityChange={handleCityChange}
+          />
           날씨
         </div>
         <IconImg src={weatherIconUrl} alt="Weather Icon" />
@@ -81,45 +74,3 @@ export default function Weather() {
     </Wrapper>
   );
 }
-
-const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: ${(props) => (props.nightMod ? "white" : "black")};
-  background-color: ${(props) => (props.nightMod ? "black" : "#e2e2e2")};
-  padding: 5px;
-  font-family: "Dovemayo_gothic";
-  transition: all 0.5s;
-  @media (max-width: 780px) {
-    flex-wrap: wrap;
-    font-size: 15px;
-  }
-`;
-
-const Item1 = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const Select = styled.select`
-  border: none;
-  font-family: "Dovemayo_gothic";
-  font-size: 18px;
-  background-color: inherit;
-  outline: none;
-  color: ${({ theme }) => theme.logo};
-`;
-
-const Item2 = styled.ul`
-  display: flex;
-  list-style: none;
-  & > li {
-    margin-right: 1rem;
-  }
-`;
-
-const IconImg = styled.img`
-  width: 30px;
-  height: 30px;
-`;
